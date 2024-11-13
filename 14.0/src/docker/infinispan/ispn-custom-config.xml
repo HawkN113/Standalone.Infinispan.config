@@ -1,7 +1,6 @@
     <infinispan
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="urn:infinispan:config:14.0 https://infinispan.org/schemas/infinispan-config-14.0.xsd
-                                urn:infinispan:server:14.0 https://infinispan.org/schemas/infinispan-server-14.0.xsd"
+          xsi:schemaLocation="urn:infinispan:config:14.0 https://infinispan.org/schemas/infinispan-config-14.0.xsd"
           xmlns="urn:infinispan:config:14.0"
           xmlns:server="urn:infinispan:server:14.0"
           xmlns:locks="urn:infinispan:config:clustered-locks:14.0">
@@ -41,7 +40,7 @@
           <local-cache name="local-cache-01" 
                        statistics="true">
               <encoding media-type="application/x-protostream"/>
-              <expiration lifespan="3600000" max-idle="600000"/>
+              <memory max-size="${env.INFINISPAN_CACHE_LOCAL_SIZE}${env.INFINISPAN_CACHE_LOCAL_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
           </local-cache>
 
           <!--Replicated caches-->
@@ -52,6 +51,7 @@
                   <key media-type="application/x-protostream"/>
                   <value media-type="application/x-protostream"/>
               </encoding>
+              <memory max-size="${env.INFINISPAN_CACHE_REPLICATED_SIZE}${env.INFINISPAN_CACHE_REPLICATED_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
           </replicated-cache>
 
           <!--Distributed caches-->
@@ -59,10 +59,11 @@
                              owners="${env.OWNERS_COUNT}" 
                              configuration="distributed-config"
                              statistics="true">
-            <encoding>
-                <key media-type="application/x-protostream"/>
-                <value media-type="application/x-protostream"/>
-            </encoding>
+              <encoding>
+                  <key media-type="application/x-protostream"/>
+                  <value media-type="application/x-protostream"/>
+              </encoding>
+              <memory max-size="${env.INFINISPAN_CACHE_DISTRIBUTED_SIZE}${env.INFINISPAN_CACHE_DISTRIBUTED_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
           </distributed-cache>
 
           <!--Authorization settings-->
