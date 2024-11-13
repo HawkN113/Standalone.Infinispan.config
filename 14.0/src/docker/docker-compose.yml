@@ -1,0 +1,114 @@
+services:
+  
+  # Set Infinispan cluster with 3 instances
+  infinispan-01:
+    build:
+      context: ./infinispan
+      dockerfile: Dockerfile
+    container_name: infinispan-01
+    privileged: true
+    user: '10000:11000'
+    environment:
+      INFINISPAN_SERVER_HOST: infinispan-01
+      INFINISPAN_SERVER: infinispan-01
+      INFINISPAN_CONTAINER_NAME: ${CACHE_CONTAINER_NAME}
+      USER: ${CACHE_ADMIN_LOGIN}
+      PASS: ${CACHE_ADMIN_PASSWORD}
+      INFINISPAN_SERVER_CACHE_MODE: "{CACHE_MODE}"
+      INFINISPAN_SERVER_PERSISTENCE: "true"
+      INFINISPAN_JOIN_CLUSTER: "true"
+      INFINISPAN_CLUSTER_NAME: ${GLOBAL_CLUSTER_NAME}
+      INFINISPAN_CLUSTER_STACK: "${CACHE_CLUSTER_STACK}"
+      INFINISPAN_NODE_NAME: "infinispan-01"
+      INFINISPAN_INITIAL_HOSTS: "${CACHE_INITIAL_HOSTS}"
+      OWNERS_COUNT: 3
+    volumes:
+      - ./infinispan/ispn-custom-config.xml:/opt/infinispan/server/conf/infinispan.xml:ro
+    ports:
+      - "11222:11222"
+      - "7800:7800"
+    healthcheck:
+      test: ["CMD", "curl", "-u", "${CACHE_ADMIN_LOGIN}:${CACHE_ADMIN_PASSWORD}", "-f", "http://localhost:11222/rest/v2/cache-managers/${CACHE_CONTAINER_NAME}/health/status"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      cluster-network:
+        aliases:
+          - infinispan-01
+            
+  infinispan-02:
+    build:
+      context: ./infinispan
+      dockerfile: Dockerfile
+    container_name: infinispan-02
+    privileged: true
+    user: '10000:11000'
+    environment:
+      INFINISPAN_SERVER_HOST: infinispan-02
+      INFINISPAN_SERVER: infinispan-02
+      INFINISPAN_CONTAINER_NAME: ${CACHE_CONTAINER_NAME}
+      USER: ${CACHE_ADMIN_LOGIN}
+      PASS: ${CACHE_ADMIN_PASSWORD}
+      INFINISPAN_SERVER_CACHE_MODE: "{CACHE_MODE}"
+      INFINISPAN_SERVER_PERSISTENCE: "true"
+      INFINISPAN_JOIN_CLUSTER: "true"
+      INFINISPAN_CLUSTER_NAME: ${GLOBAL_CLUSTER_NAME}
+      INFINISPAN_CLUSTER_STACK: "${CACHE_CLUSTER_STACK}"
+      INFINISPAN_NODE_NAME: "infinispan-02"
+      INFINISPAN_INITIAL_HOSTS: "${CACHE_INITIAL_HOSTS}"
+      OWNERS_COUNT: 3
+    volumes:
+      - ./infinispan/ispn-custom-config.xml:/opt/infinispan/server/conf/infinispan.xml:ro
+    ports:
+      - "11223:11222"
+      - "7801:7800"
+    healthcheck:
+      test: ["CMD", "curl", "-u", "${CACHE_ADMIN_LOGIN}:${CACHE_ADMIN_PASSWORD}", "-f", "http://localhost:11223/rest/v2/cache-managers/${CACHE_CONTAINER_NAME}/health/status"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      cluster-network:
+        aliases:
+          - infinispan-02
+            
+  infinispan-03:
+    build:
+      context: ./infinispan
+      dockerfile: Dockerfile
+    container_name: infinispan-03
+    privileged: true
+    user: '10000:11000'
+    environment:
+      INFINISPAN_SERVER_HOST: infinispan-03
+      INFINISPAN_SERVER: infinispan-03
+      INFINISPAN_CONTAINER_NAME: ${CACHE_CONTAINER_NAME}
+      USER: ${CACHE_ADMIN_LOGIN}
+      PASS: ${CACHE_ADMIN_PASSWORD}
+      INFINISPAN_SERVER_CACHE_MODE: "${CACHE_MODE}"
+      INFINISPAN_SERVER_PERSISTENCE: "true"
+      INFINISPAN_JOIN_CLUSTER: "true"
+      INFINISPAN_CLUSTER_NAME: ${GLOBAL_CLUSTER_NAME}
+      INFINISPAN_CLUSTER_STACK: "${CACHE_CLUSTER_STACK}"
+      INFINISPAN_NODE_NAME: "infinispan-03"
+      INFINISPAN_INITIAL_HOSTS: "${CACHE_INITIAL_HOSTS}"
+      OWNERS_COUNT: 3
+    volumes:
+      - ./infinispan/ispn-custom-config.xml:/opt/infinispan/server/conf/infinispan.xml:ro
+    ports:
+      - "11224:11222"
+      - "7802:7800"
+    healthcheck:
+      test: ["CMD", "curl", "-u", "${CACHE_ADMIN_LOGIN}:${CACHE_ADMIN_PASSWORD}", "-f", "http://localhost:11224/rest/v2/cache-managers/${CACHE_CONTAINER_NAME}/health/status"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      cluster-network:
+        aliases:
+          - infinispan-03
+
+networks:
+  cluster-network:
+    driver: bridge
