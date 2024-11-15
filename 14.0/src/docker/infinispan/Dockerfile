@@ -6,7 +6,7 @@ USER root
 
 RUN microdnf update -y && microdnf install -y shadow-utils tar which && microdnf clean all
 
-RUN groupadd -g 11000 "infgroup"
+RUN groupadd -g 11000 "infinispanGroup"
 RUN adduser \
     --uid 10000 \
     --gid 11000 \
@@ -15,6 +15,10 @@ RUN adduser \
     --shell /bin/bash \
     --comment "InfinispanAccount" \
     "infinispan_account"
+
+#Copy security realms
+COPY ./security/groups.properties /opt/infinispan/server/conf/groups.properties
+COPY ./security/users.properties /opt/infinispan/server/conf/users.properties 
 
 # Set permissions for the system folders
 RUN chown -R 10000:11000 /bin
@@ -33,7 +37,6 @@ RUN chown -R 10000:11000 /var
 RUN chown -R 10000:11000 /deployments
 RUN chown -R 10000:11000 /home/jboss
 RUN chown -R 10000:11000 /opt/infinispan
-RUN chown -R 10000:11000 /opt/infinispan/lib
 
 USER infinispan_account
 
