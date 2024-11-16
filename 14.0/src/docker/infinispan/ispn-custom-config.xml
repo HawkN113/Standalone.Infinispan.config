@@ -48,8 +48,8 @@
                             configuration="replicated-config"
                             statistics="true">
               <encoding>
-                  <key media-type="application/x-protostream"/>
-                  <value media-type="application/x-protostream"/>
+                  <key media-type="text/plain"/>
+                  <value media-type="application/json"/>
               </encoding>
               <memory max-size="${env.INFINISPAN_CACHE_REPLICATED_SIZE}${env.INFINISPAN_CACHE_REPLICATED_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
           </replicated-cache>
@@ -60,8 +60,8 @@
                              configuration="distributed-config"
                              statistics="true">
               <encoding>
-                  <key media-type="application/x-protostream"/>
-                  <value media-type="application/x-protostream"/>
+                  <key media-type="text/plain"/>
+                  <value media-type="application/json"/>
               </encoding>
               <memory max-size="${env.INFINISPAN_CACHE_DISTRIBUTED_SIZE}${env.INFINISPAN_CACHE_DISTRIBUTED_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
           </distributed-cache>

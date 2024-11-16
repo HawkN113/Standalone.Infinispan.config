@@ -1,1 +1,8 @@
 /.idea/*
+/14.0/.idea/*
+/14.0/src/Infinispan.14.Consumer/obj/*
+/14.0/src/Infinispan.14.Consumer/bin/*
+/14.0/src/Infinispan.14.Producer/obj/*
+/14.0/src/Infinispan.14.Producer/bin/*
+/14.0/src/Infinispan.14.Shared/obj/*
+/14.0/src/Infinispan.14.Shared/bin/*
