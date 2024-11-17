@@ -1,4 +1,4 @@
-﻿using Infinispan._14.Shared.Model;
+﻿using Infinispan._14.Shared.Models;
 
 namespace Infinispan._14.Shared.Clients.Interfaces;
 

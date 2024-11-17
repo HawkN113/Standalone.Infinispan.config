@@ -1,17 +1,17 @@
 ﻿using Infinispan._14.Shared.Clients;
 using Infinispan._14.Shared.Clients.Interfaces;
 using Infinispan._14.Shared.Configuration;
-using Infinispan._14.Shared.Model;
 using Microsoft.Extensions.Options;
 using System.Net;
+using Infinispan._14.Producer.Models;
 
 namespace Infinispan._14.Producer.Clients;
 
 public sealed class ProducerClient(IOptions<InfinispanSettings> settings) :
-    InfinispanClient<CarModel, Guid, CarModel>(new Uri(settings.Value.BaseAddress)),
-    IProducerClient<CarModel, Guid>
+    InfinispanClient<WritableCarModel, Guid, WritableCarModel>(new Uri(settings.Value.BaseAddress)),
+    IProducerClient<WritableCarModel, Guid>
 {
-    public async Task<bool> AddToCacheAsync(CarModel model, Guid key)
+    public async Task<bool> AddToCacheAsync(WritableCarModel model, Guid key)
     {
         return await base.AddToCacheAsync(model, key, settings.Value.CacheName, GetCredentials(AccountType.Writer));
     }

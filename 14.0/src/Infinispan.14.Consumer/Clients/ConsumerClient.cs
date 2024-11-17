@@ -1,24 +1,24 @@
 ﻿using System.Net;
+using Infinispan._14.Consumer.Models;
 using Infinispan._14.Shared.Clients;
 using Infinispan._14.Shared.Clients.Interfaces;
 using Infinispan._14.Shared.Configuration;
-using Infinispan._14.Shared.Model;
 using Microsoft.Extensions.Options;
 
 namespace Infinispan._14.Consumer.Clients;
 
 public sealed class ConsumerClient(IOptions<InfinispanSettings> settings) :
-    InfinispanClient<CarModel, Guid, CarModel>(new Uri(settings.Value.BaseAddress)),
-    IConsumerClient<Guid, CarModel>
+    InfinispanClient<ReadableCarModel, Guid, ReadableCarModel>(new Uri(settings.Value.BaseAddress)),
+    IConsumerClient<Guid, ReadableCarModel>
 {
-    public async Task<CarModel?> GetFromCacheAsync(Guid key)
+    public async Task<ReadableCarModel?> GetFromCacheAsync(Guid key)
     {
         return await base.GetFromCacheAsync(key, settings.Value.CacheName, GetCredentials(AccountType.Reader));
     }
 
-    public async Task<List<Guid>?> GetAllFromCacheAsync()
+    public async Task<List<Guid>?> GetAllFromCacheAsync(int limit)
     {
-        return await base.GetAllFromCacheAsync(settings.Value.CacheName, GetCredentials(AccountType.Reader));
+        return await base.GetAllFromCacheAsync(settings.Value.CacheName, GetCredentials(AccountType.Reader), limit);
     }
 
     private NetworkCredential GetCredentials(AccountType accountType)

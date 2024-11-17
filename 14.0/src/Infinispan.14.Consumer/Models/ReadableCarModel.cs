@@ -1,8 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using Infinispan._14.Shared.Models;
 
-namespace Infinispan._14.Shared.Model;
+namespace Infinispan._14.Consumer.Models;
 
-public class CarModel : CacheBaseModel
+public sealed class ReadableCarModel : CacheBaseModel
 {
     [JsonPropertyName("manufacturer")] public string Manufacturer { get; set; }
 

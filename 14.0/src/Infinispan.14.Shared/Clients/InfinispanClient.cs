@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Infinispan._14.Shared.Clients.Interfaces;
-using Infinispan._14.Shared.Model;
+using Infinispan._14.Shared.Models;
 
 namespace Infinispan._14.Shared.Clients;
 
@@ -53,12 +53,17 @@ public abstract class InfinispanClient<TIn, TYpKey, TOut>(Uri baseAddress) : IIn
         return !string.IsNullOrEmpty(content) ? JsonSerializer.Deserialize<TOut>(content) : null;
     }
 
-    public async Task<List<TYpKey>?> GetAllFromCacheAsync(string cacheName, NetworkCredential credentials)
+    public async Task<List<TYpKey>?> GetAllFromCacheAsync(string cacheName, NetworkCredential credentials, int limit)
     {
         var httpClient = GetClient(credentials);
+        
+        var query = "?action=entries&content-negotiation=true&metadata=true";
+        if (limit > 0)
+            query += "&limit=" + limit;
+        
         var request = new HttpRequestMessage(
             HttpMethod.Get,
-            $"{DefaultPath}/{cacheName}?action=entries&content-negotiation=true&metadata=true&limit=100");
+            $"{DefaultPath}/{cacheName}{query}");
         var response = await httpClient.SendAsync(request);
         
         if (!response.IsSuccessStatusCode) return null!;
@@ -97,7 +102,7 @@ public abstract class InfinispanClient<TIn, TYpKey, TOut>(Uri baseAddress) : IIn
     }
 }
 
-public class CacheEntry<TYpKey> where TYpKey : struct
+internal class CacheEntry<TYpKey> where TYpKey : struct
 {
     [JsonPropertyName("key")]
     public TYpKey Key { get; set; }
