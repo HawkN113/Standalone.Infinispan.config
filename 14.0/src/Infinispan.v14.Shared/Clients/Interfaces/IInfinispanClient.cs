@@ -10,5 +10,6 @@ public interface IInfinispanClient<T, TYpKey>
     Task<T?> GetFromCacheAsync(TYpKey key, NetworkCredential credentials);
     Task<List<TYpKey>?> GetAllKeysFromCacheAsync(NetworkCredential credentials, int limit);
     Task<IEnumerable<T>> GetByQueryFromCacheAsync(Func<T, bool> query, NetworkCredential credentials, int limit);
+    Task<StatsModel?> GetStatisticsAsync(NetworkCredential credentials);
     Task<bool> DeleteFromCacheAsync(TYpKey key, NetworkCredential credentials);
 }

@@ -1,5 +1,5 @@
-﻿using Infinispan.v14.Consumer.Clients;
-using Infinispan.v14.Consumer.Services;
+﻿using Infinispan.v14.Monitor.Clients;
+using Infinispan.v14.Monitor.Services;
 using Infinispan.v14.Shared.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,15 +15,14 @@ using var host = Host.CreateDefaultBuilder(args)
         // Add cache settings
         services.AddCacheSettings(context.Configuration);
         // Add clients
-        services.AddScoped<ConsumerClient>();
+        services.AddScoped<MonitorClient>();
         // Add background services
-        services.AddHostedService<ConsumerService>();
+        services.AddHostedService<MonitorService>();
     })
     .Build();
 
 try
 {
-    Console.WriteLine("Start background services...");
     await host.RunAsync();
 }
 catch (Exception ex)

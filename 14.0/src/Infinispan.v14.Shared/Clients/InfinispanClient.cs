@@ -108,6 +108,20 @@ public abstract class InfinispanClient<T, TYpKey>(Uri baseAddress) : IInfinispan
             .AsEnumerable();
     }
 
+    public async Task<StatsModel?> GetStatisticsAsync(NetworkCredential credentials)
+    {
+        var httpClient = GetClient(credentials);
+        var request = new HttpRequestMessage(
+            HttpMethod.Get,
+            $"{DefaultPath}/{CacheName}");
+        var response = await httpClient.SendAsync(request);
+
+        if (!response.IsSuccessStatusCode) return null!;
+
+        var content = await response.Content.ReadAsStringAsync();
+        return !string.IsNullOrEmpty(content) ? JsonSerializer.Deserialize<StatsModel>(content) : null;
+    }
+
     public async Task<bool> DeleteFromCacheAsync(TYpKey key, NetworkCredential credentials)
     {
         var httpClient = GetClient(credentials);

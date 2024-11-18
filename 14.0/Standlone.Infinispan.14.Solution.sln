@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Consumer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Shared", "src\Infinispan.v14.Shared\Infinispan.v14.Shared.csproj", "{458E501C-E4AF-46AB-AA08-305840DB8A20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Monitor", "src\Infinispan.v14.Monitor\Infinispan.v14.Monitor.csproj", "{D94E710E-6750-41CE-AACF-F395E956149B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{458E501C-E4AF-46AB-AA08-305840DB8A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{458E501C-E4AF-46AB-AA08-305840DB8A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{458E501C-E4AF-46AB-AA08-305840DB8A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D94E710E-6750-41CE-AACF-F395E956149B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D94E710E-6750-41CE-AACF-F395E956149B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D94E710E-6750-41CE-AACF-F395E956149B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D94E710E-6750-41CE-AACF-F395E956149B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
