@@ -1,6 +1,6 @@
 ﻿using Infinispan.v14.Producer.Clients;
 using Infinispan.v14.Producer.Services;
-using Infinispan.v14.Shared.Configuration;
+using Infinispan.v14.Shared.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,7 +13,7 @@ using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services)  =>
     {
         // Add cache settings
-        services.Configure<InfinispanSettings>(context.Configuration.GetSection("InfinispanSettings"));
+        services.AddCacheSettings(context.Configuration);
         // Add clients
         services.AddScoped<ProducerClient>();
         // Add background services

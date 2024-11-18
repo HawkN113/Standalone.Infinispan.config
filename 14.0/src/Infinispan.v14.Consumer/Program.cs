@@ -13,7 +13,7 @@ using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services)  =>
     {
         // Add cache settings
-        services.Configure<InfinispanSettings>(context.Configuration.GetSection("InfinispanSettings"));
+        services.AddCacheSettings(context.Configuration);
         // Add clients
         services.AddScoped<ConsumerClient>();
         // Add background services

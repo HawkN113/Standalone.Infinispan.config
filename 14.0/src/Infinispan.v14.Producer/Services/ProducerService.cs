@@ -25,7 +25,7 @@ public class ProducerService(
                     Model = faker.Vehicle.Model(),
                     Manufacturer = faker.Vehicle.Manufacturer(),
                     Type = faker.Vehicle.Type(),
-                    TimeToLiveInSeconds = new Random().Next(20, 80)
+                    TimeToLiveInSeconds = new Random().Next(-1, 80)
                 };
                 await client.AddToCacheAsync(model, model.CacheKey);
                 Console.WriteLine(
