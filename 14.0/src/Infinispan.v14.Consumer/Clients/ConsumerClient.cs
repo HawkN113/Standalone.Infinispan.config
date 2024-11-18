@@ -11,6 +11,8 @@ public sealed class ConsumerClient(IOptions<InfinispanSettings> settings) :
     InfinispanClient<ReadableCarModel, Guid>(new Uri(settings.Value.BaseAddress)),
     IConsumerClient<Guid, ReadableCarModel>
 {
+    protected override string CacheName => settings.Value.CacheName;
+
     public async Task<ReadableCarModel?> GetFromCacheAsync(Guid key)
     {
         return await base.GetFromCacheAsync(key, GetCredentials(AccountType.Reader));
@@ -21,7 +23,8 @@ public sealed class ConsumerClient(IOptions<InfinispanSettings> settings) :
         return await base.GetAllKeysFromCacheAsync(GetCredentials(AccountType.Reader), limit);
     }
 
-    public async Task<IEnumerable<ReadableCarModel>> GetByQueryFromCacheAsync(Func<ReadableCarModel, bool> query, int limit)
+    public async Task<IEnumerable<ReadableCarModel>> GetByQueryFromCacheAsync(Func<ReadableCarModel, bool> query,
+        int limit)
     {
         return await base.GetByQueryFromCacheAsync(query, GetCredentials(AccountType.Reader), limit);
     }
@@ -31,6 +34,4 @@ public sealed class ConsumerClient(IOptions<InfinispanSettings> settings) :
         var account = settings.Value.AccessList.First(q => q.AccountType == accountType);
         return new NetworkCredential(account.Username, account.Password);
     }
-
-    protected override string CacheName => settings.Value.CacheName;
 }

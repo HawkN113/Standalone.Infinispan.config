@@ -11,6 +11,8 @@ public sealed class ProducerClient(IOptions<InfinispanSettings> settings) :
     InfinispanClient<WritableCarModel, Guid>(new Uri(settings.Value.BaseAddress)),
     IProducerClient<WritableCarModel, Guid>
 {
+    protected override string CacheName => settings.Value.CacheName;
+    
     public async Task<bool> AddToCacheAsync(WritableCarModel model, Guid key)
     {
         return await base.AddToCacheAsync(model, key, GetCredentials(AccountType.Writer));
@@ -26,6 +28,4 @@ public sealed class ProducerClient(IOptions<InfinispanSettings> settings) :
         var account = settings.Value.AccessList.First(q => q.AccountType == accountType);
         return new NetworkCredential(account.Username, account.Password);
     }
-
-    protected override string CacheName => settings.Value.CacheName;
 }

@@ -31,7 +31,7 @@ public class ProducerService(
                 Console.WriteLine(
                     $"New car model {model.Model} ({model.Manufacturer}) has been added to the distributed cache '{cacheSettings.Value.CacheName}' (expired in {model.TimeToLiveInSeconds} seconds)");
             }
-            await Task.Delay((DelayInSeconds * 1000), stoppingToken);
+            await Task.Delay(DelayInSeconds * 1000, stoppingToken);
         }
     }
 }
