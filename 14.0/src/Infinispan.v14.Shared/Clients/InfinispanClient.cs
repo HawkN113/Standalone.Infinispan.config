@@ -9,21 +9,21 @@ using Infinispan.v14.Shared.Models;
 
 namespace Infinispan.v14.Shared.Clients;
 
-public abstract class InfinispanClient<TIn, TYpKey, TOut>(Uri baseAddress) : IInfinispanClient<TIn, TYpKey, TOut>
-    where TIn : CacheBaseModel
+public abstract class InfinispanClient<T, TYpKey>(Uri baseAddress) : IInfinispanClient<T, TYpKey>
+    where T : CacheBaseModel, new()
     where TYpKey : struct
-    where TOut : CacheBaseModel
 {
     private const string DefaultPath = "/rest/v2/caches";
     private const string TimeToLiveSecondsName = "TimeToLiveSeconds";
+    protected abstract string CacheName { get; }
 
-    public async Task<bool> AddToCacheAsync(TIn model, TYpKey key, string cacheName,
+    public async Task<bool> AddToCacheAsync(T model, TYpKey key,
         NetworkCredential credentials)
     {
         var httpClient = GetClient(credentials);
         var request = new HttpRequestMessage(
             HttpMethod.Post,
-            $"{DefaultPath}/{cacheName}/{key.ToString()}")
+            $"{DefaultPath}/{CacheName}/{key.ToString()}")
         {
             Content = new StringContent(
                 JsonSerializer.Serialize(model),
@@ -39,31 +39,31 @@ public abstract class InfinispanClient<TIn, TYpKey, TOut>(Uri baseAddress) : IIn
         throw new ArgumentNullException($"AddToCacheAsync: {errorContent}");
     }
 
-    public async Task<TOut?> GetFromCacheAsync(TYpKey key, string cacheName, NetworkCredential credentials)
+    public async Task<T?> GetFromCacheAsync(TYpKey key, NetworkCredential credentials)
     {
         var httpClient = GetClient(credentials);
         var request = new HttpRequestMessage(
             HttpMethod.Get,
-            $"{DefaultPath}/{cacheName}/{key.ToString()}");
+            $"{DefaultPath}/{CacheName}/{key.ToString()}");
         var response = await httpClient.SendAsync(request);
 
         if (!response.IsSuccessStatusCode) return null!;
 
         var content = await response.Content.ReadAsStringAsync();
-        return !string.IsNullOrEmpty(content) ? JsonSerializer.Deserialize<TOut>(content) : null;
+        return !string.IsNullOrEmpty(content) ? JsonSerializer.Deserialize<T>(content) : null;
     }
 
-    public async Task<List<TYpKey>?> GetAllKeysFromCacheAsync(string cacheName, NetworkCredential credentials, int limit)
+    public async Task<List<TYpKey>?> GetAllKeysFromCacheAsync(NetworkCredential credentials, int limit)
     {
         var httpClient = GetClient(credentials);
         
-        var query = "?action=entries&content-negotiation=true&metadata=true";
+        var queryString = "?action=entries&content-negotiation=false&metadata=false";
         if (limit > 0)
-            query += "&limit=" + limit;
+            queryString += "&limit=" + limit;
         
         var request = new HttpRequestMessage(
             HttpMethod.Get,
-            $"{DefaultPath}/{cacheName}{query}");
+            $"{DefaultPath}/{CacheName}{queryString}");
         var response = await httpClient.SendAsync(request);
         
         if (!response.IsSuccessStatusCode) return null!;
@@ -76,12 +76,44 @@ public abstract class InfinispanClient<TIn, TYpKey, TOut>(Uri baseAddress) : IIn
         return list?.Select(s => s.Key).ToList();
     }
 
-    public async Task<bool> DeleteFromCacheAsync(TYpKey key, string cacheName, NetworkCredential credentials)
+    public async Task<IEnumerable<T>> GetByQueryFromCacheAsync(Func<T, bool> query, NetworkCredential credentials,
+        int limit)
+    {
+        var httpClient = GetClient(credentials);
+
+        var queryString = "?action=entries&content-negotiation=false&metadata=false";
+
+        var request = new HttpRequestMessage(
+            HttpMethod.Get,
+            $"{DefaultPath}/{CacheName}{queryString}");
+        var response = await httpClient.SendAsync(request);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (string.IsNullOrEmpty(content)) return new List<T>();
+
+        var cacheEntries = JsonSerializer.Deserialize<List<CacheEntry<TYpKey>>>(content);
+
+        return cacheEntries?
+            .Select(entry =>
+            {
+                var value = JsonSerializer.Deserialize<T>(entry.Value!.ToString());
+                if (Guid.TryParse(entry.Key.ToString(), out var key))
+                    value!.CacheKey = key;
+                return value;
+            })
+            .Where(item => item != null && query(item!))
+            .AsParallel()
+            .Take(limit)
+            .AsEnumerable();
+    }
+
+    public async Task<bool> DeleteFromCacheAsync(TYpKey key, NetworkCredential credentials)
     {
         var httpClient = GetClient(credentials);
         var request = new HttpRequestMessage(
             HttpMethod.Delete,
-            $"{DefaultPath}/{cacheName}/{key.ToString()}");
+            $"{DefaultPath}/{CacheName}/{key.ToString()}");
         var response = await httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode) return response.IsSuccessStatusCode;
         var errorContent = await response.Content.ReadAsStringAsync();
@@ -102,8 +134,11 @@ public abstract class InfinispanClient<TIn, TYpKey, TOut>(Uri baseAddress) : IIn
     }
 }
 
-internal class CacheEntry<TYpKey> where TYpKey : struct
+internal class CacheEntry<TYpKey> where TYpKey : struct 
 {
     [JsonPropertyName("key")]
     public TYpKey Key { get; set; }
+    
+    [JsonPropertyName("value")]
+    public object? Value { get; set; }
 }

@@ -39,7 +39,7 @@
           <!--Local caches-->
           <local-cache name="local-cache-01" 
                        statistics="true">
-              <encoding media-type="application/x-protostream"/>
+              <encoding media-type="application/json"/>
               <memory max-size="${env.INFINISPAN_CACHE_LOCAL_SIZE}${env.INFINISPAN_CACHE_LOCAL_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
           </local-cache>
 

@@ -2,9 +2,9 @@
 
 namespace Infinispan.v14.Shared.Clients.Interfaces;
 
-public interface IProducerClient<in TIn, in TYpKey> 
-    where TIn: CacheBaseModel where TYpKey: struct
+public interface IProducerClient<in T, in TYpKey> 
+    where T: CacheBaseModel where TYpKey: struct
 {
-    Task<bool> AddToCacheAsync(TIn model, TYpKey key);
+    Task<bool> AddToCacheAsync(T model, TYpKey key);
     Task<bool> DeleteFromCacheAsync(TYpKey key);
 }

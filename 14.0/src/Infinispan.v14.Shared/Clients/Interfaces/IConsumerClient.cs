@@ -2,9 +2,10 @@
 
 namespace Infinispan.v14.Shared.Clients.Interfaces;
 
-public interface IConsumerClient<TYpKey, TOut> 
-    where TYpKey: struct where TOut: CacheBaseModel
+public interface IConsumerClient<TYpKey, T> 
+    where TYpKey: struct where T: CacheBaseModel
 {
-    Task<TOut?> GetFromCacheAsync(TYpKey key);
+    Task<T?> GetFromCacheAsync(TYpKey key);
     Task<List<TYpKey>?> GetAllKeysFromCacheAsync(int limit);
+    Task<IEnumerable<T>> GetByQueryFromCacheAsync(Func<T, bool> query, int limit);
 }
