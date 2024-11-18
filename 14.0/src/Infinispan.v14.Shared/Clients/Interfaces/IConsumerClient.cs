@@ -6,5 +6,5 @@ public interface IConsumerClient<TYpKey, TOut>
     where TYpKey: struct where TOut: CacheBaseModel
 {
     Task<TOut?> GetFromCacheAsync(TYpKey key);
-    Task<List<TYpKey>?> GetAllFromCacheAsync(int limit);
+    Task<List<TYpKey>?> GetAllKeysFromCacheAsync(int limit);
 }

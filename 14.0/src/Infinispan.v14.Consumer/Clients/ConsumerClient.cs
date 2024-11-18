@@ -16,9 +16,9 @@ public sealed class ConsumerClient(IOptions<InfinispanSettings> settings) :
         return await base.GetFromCacheAsync(key, settings.Value.CacheName, GetCredentials(AccountType.Reader));
     }
 
-    public async Task<List<Guid>?> GetAllFromCacheAsync(int limit)
+    public async Task<List<Guid>?> GetAllKeysFromCacheAsync(int limit)
     {
-        return await base.GetAllFromCacheAsync(settings.Value.CacheName, GetCredentials(AccountType.Reader), limit);
+        return await base.GetAllKeysFromCacheAsync(settings.Value.CacheName, GetCredentials(AccountType.Reader), limit);
     }
 
     private NetworkCredential GetCredentials(AccountType accountType)

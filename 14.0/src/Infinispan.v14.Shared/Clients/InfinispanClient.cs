@@ -53,7 +53,7 @@ public abstract class InfinispanClient<TIn, TYpKey, TOut>(Uri baseAddress) : IIn
         return !string.IsNullOrEmpty(content) ? JsonSerializer.Deserialize<TOut>(content) : null;
     }
 
-    public async Task<List<TYpKey>?> GetAllFromCacheAsync(string cacheName, NetworkCredential credentials, int limit)
+    public async Task<List<TYpKey>?> GetAllKeysFromCacheAsync(string cacheName, NetworkCredential credentials, int limit)
     {
         var httpClient = GetClient(credentials);
         

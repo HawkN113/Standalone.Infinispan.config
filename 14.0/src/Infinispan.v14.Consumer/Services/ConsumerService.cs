@@ -14,10 +14,11 @@ public class ConsumerService(
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            var list = await client.GetAllFromCacheAsync(50);
+            var list = await client.GetAllKeysFromCacheAsync(50);
             Console.WriteLine(
-                $"The distributed cache '{cacheSettings.Value.CacheName}' includes {list.Count} entries:");
-            foreach (var key in list)
+                $"The distributed cache '{cacheSettings.Value.CacheName}' includes {list?.Count} entries:");
+            
+            foreach (var key in list!)
             {
                 var cacheEntry = await client.GetFromCacheAsync(key);
                 Console.WriteLine($"\t Cache entry: {cacheEntry?.Type} ({cacheEntry?.Manufacturer})");

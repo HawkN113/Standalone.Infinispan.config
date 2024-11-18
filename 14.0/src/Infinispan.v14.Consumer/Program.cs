@@ -1,6 +1,7 @@
 ﻿using Infinispan.v14.Shared.Configuration;
 using Infinispan.v14.Consumer.Clients;
 using Infinispan.v14.Consumer.Services;
+using Infinispan.v14.Shared.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

@@ -8,6 +8,6 @@ public interface IInfinispanClient<in TIn, TYpKey, TOut>
 {
     Task<bool> AddToCacheAsync(TIn model, TYpKey key, string cacheName, NetworkCredential credentials);
     Task<TOut?> GetFromCacheAsync(TYpKey key, string cacheName, NetworkCredential credentials);
-    Task<List<TYpKey>?> GetAllFromCacheAsync(string cacheName, NetworkCredential credentials, int limit);
+    Task<List<TYpKey>?> GetAllKeysFromCacheAsync(string cacheName, NetworkCredential credentials, int limit);
     Task<bool> DeleteFromCacheAsync(TYpKey key, string cacheName, NetworkCredential credentials);
 }
