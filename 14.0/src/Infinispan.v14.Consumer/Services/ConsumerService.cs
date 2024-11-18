@@ -1,9 +1,9 @@
-﻿using Infinispan._14.Consumer.Clients;
-using Infinispan._14.Shared.Configuration;
+﻿using Infinispan.v14.Consumer.Clients;
+using Infinispan.v14.Shared.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace Infinispan._14.Consumer.Services;
+namespace Infinispan.v14.Consumer.Services;
 
 public class ConsumerService(
     ConsumerClient client, 
@@ -17,12 +17,10 @@ public class ConsumerService(
             var list = await client.GetAllFromCacheAsync(50);
             Console.WriteLine(
                 $"The distributed cache '{cacheSettings.Value.CacheName}' includes {list.Count} entries:");
-
             foreach (var key in list)
             {
                 var cacheEntry = await client.GetFromCacheAsync(key);
-                if (cacheEntry is not null)
-                    Console.WriteLine($"\t Cache entry: {cacheEntry.Type} ({cacheEntry.Manufacturer})");
+                Console.WriteLine($"\t Cache entry: {cacheEntry?.Type} ({cacheEntry?.Manufacturer})");
             }
 
             Console.WriteLine($"Wait {DelayInSeconds} seconds...");

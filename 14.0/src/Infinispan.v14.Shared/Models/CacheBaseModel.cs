@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Infinispan._14.Shared.Models;
+namespace Infinispan.v14.Shared.Models;
 
 public abstract class CacheBaseModel
 {

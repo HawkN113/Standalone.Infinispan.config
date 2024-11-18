@@ -1,11 +1,11 @@
 ﻿using System.Net;
-using Infinispan._14.Consumer.Models;
-using Infinispan._14.Shared.Clients;
-using Infinispan._14.Shared.Clients.Interfaces;
-using Infinispan._14.Shared.Configuration;
+using Infinispan.v14.Consumer.Models;
+using Infinispan.v14.Shared.Clients;
+using Infinispan.v14.Shared.Clients.Interfaces;
+using Infinispan.v14.Shared.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Infinispan._14.Consumer.Clients;
+namespace Infinispan.v14.Consumer.Clients;
 
 public sealed class ConsumerClient(IOptions<InfinispanSettings> settings) :
     InfinispanClient<ReadableCarModel, Guid, ReadableCarModel>(new Uri(settings.Value.BaseAddress)),

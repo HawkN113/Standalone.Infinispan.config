@@ -1,12 +1,11 @@
 ﻿using Bogus;
-using Infinispan._14.Producer.Clients;
-using Infinispan._14.Producer.Models;
-using Infinispan._14.Shared.Configuration;
-using Infinispan._14.Shared.Models;
+using Infinispan.v14.Producer.Clients;
+using Infinispan.v14.Producer.Models;
+using Infinispan.v14.Shared.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace Infinispan._14.Producer.Services;
+namespace Infinispan.v14.Producer.Services;
 
 public class ProducerService(
     ProducerClient client, 
@@ -32,7 +31,6 @@ public class ProducerService(
                 Console.WriteLine(
                     $"New car model {model.Model} ({model.Manufacturer}) has been added to the distributed cache '{cacheSettings.Value.CacheName}' (expired in {model.TimeToLiveInSeconds} seconds)");
             }
-
             await Task.Delay((DelayInSeconds * 1000), stoppingToken);
         }
     }

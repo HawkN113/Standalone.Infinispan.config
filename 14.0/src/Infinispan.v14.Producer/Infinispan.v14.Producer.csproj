@@ -5,7 +5,6 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Infinispan._14.Producer</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,7 +13,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\Infinispan.14.Shared\Infinispan.14.Shared.csproj" />
+      <ProjectReference Include="..\Infinispan.v14.Shared\Infinispan.v14.Shared.csproj" />
     </ItemGroup>
     
     <ItemGroup>

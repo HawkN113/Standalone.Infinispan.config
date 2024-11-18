@@ -1,6 +1,6 @@
-﻿using Infinispan._14.Shared.Models;
+﻿using Infinispan.v14.Shared.Models;
 
-namespace Infinispan._14.Shared.Clients.Interfaces;
+namespace Infinispan.v14.Shared.Clients.Interfaces;
 
 public interface IConsumerClient<TYpKey, TOut> 
     where TYpKey: struct where TOut: CacheBaseModel

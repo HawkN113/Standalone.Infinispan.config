@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using Infinispan._14.Shared.Models;
+using Infinispan.v14.Shared.Models;
 
-namespace Infinispan._14.Producer.Models;
+namespace Infinispan.v14.Producer.Models;
 
 public sealed class WritableCarModel : CacheBaseModel
 {

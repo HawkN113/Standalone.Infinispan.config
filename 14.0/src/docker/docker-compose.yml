@@ -31,8 +31,8 @@ services:
       OWNERS_COUNT: 3
     volumes:
       - ./infinispan/ispn-custom-config.xml:/opt/infinispan/server/conf/infinispan.xml:ro
-#      - ./infinispan/security/groups.properties:/opt/infinispan/server/conf/groups.properties:rw
-#      - ./infinispan/security/users.properties:/opt/infinispan/server/conf/users.properties:rw
+#     - ./infinispan/security/groups.properties:/opt/infinispan/server/conf/groups.properties:rw
+#     - ./infinispan/security/users.properties:/opt/infinispan/server/conf/users.properties:rw
     ports:
       - "11222:11222"
       - "7800:7800"
@@ -76,8 +76,8 @@ services:
       OWNERS_COUNT: 3
     volumes:
       - ./infinispan/ispn-custom-config.xml:/opt/infinispan/server/conf/infinispan.xml:ro
-#      - ./infinispan/security/groups.properties:/opt/infinispan/server/conf/groups.properties:rw
-#      - ./infinispan/security/users.properties:/opt/infinispan/server/conf/users.properties:rw
+#     - ./infinispan/security/groups.properties:/opt/infinispan/server/conf/groups.properties:rw
+#     - ./infinispan/security/users.properties:/opt/infinispan/server/conf/users.properties:rw
     ports:
       - "11223:11222"
       - "7801:7800"
@@ -121,8 +121,8 @@ services:
       OWNERS_COUNT: 3
     volumes:
       - ./infinispan/ispn-custom-config.xml:/opt/infinispan/server/conf/infinispan.xml:ro
-#      - ./infinispan/security/groups.properties:/opt/infinispan/server/conf/groups.properties:rw
-#      - ./infinispan/security/users.properties:/opt/infinispan/server/conf/users.properties:rw
+#     - ./infinispan/security/groups.properties:/opt/infinispan/server/conf/groups.properties:rw
+#     - ./infinispan/security/users.properties:/opt/infinispan/server/conf/users.properties:rw
     ports:
       - "11224:11222"
       - "7802:7800"

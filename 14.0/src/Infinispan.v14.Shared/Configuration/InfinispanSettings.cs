@@ -1,4 +1,4 @@
-﻿namespace Infinispan._14.Shared.Configuration;
+﻿namespace Infinispan.v14.Shared.Configuration;
 
 public sealed class InfinispanSettings
 {

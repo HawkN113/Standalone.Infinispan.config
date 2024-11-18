@@ -1,6 +1,6 @@
-﻿using Infinispan._14.Shared.Models;
+﻿using Infinispan.v14.Shared.Models;
 
-namespace Infinispan._14.Shared.Clients.Interfaces;
+namespace Infinispan.v14.Shared.Clients.Interfaces;
 
 public interface IProducerClient<in TIn, in TYpKey> 
     where TIn: CacheBaseModel where TYpKey: struct

@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using Infinispan._14.Shared.Models;
+using Infinispan.v14.Shared.Models;
 
-namespace Infinispan._14.Shared.Clients.Interfaces;
+namespace Infinispan.v14.Shared.Clients.Interfaces;
 
 public interface IInfinispanClient<in TIn, TYpKey, TOut> 
     where TIn: CacheBaseModel where TYpKey: struct where TOut: CacheBaseModel

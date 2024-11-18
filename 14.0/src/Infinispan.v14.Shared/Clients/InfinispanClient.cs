@@ -4,10 +4,10 @@ using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Infinispan._14.Shared.Clients.Interfaces;
-using Infinispan._14.Shared.Models;
+using Infinispan.v14.Shared.Clients.Interfaces;
+using Infinispan.v14.Shared.Models;
 
-namespace Infinispan._14.Shared.Clients;
+namespace Infinispan.v14.Shared.Clients;
 
 public abstract class InfinispanClient<TIn, TYpKey, TOut>(Uri baseAddress) : IInfinispanClient<TIn, TYpKey, TOut>
     where TIn : CacheBaseModel

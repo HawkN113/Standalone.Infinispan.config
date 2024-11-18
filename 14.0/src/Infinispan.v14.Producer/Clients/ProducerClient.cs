@@ -1,11 +1,11 @@
-﻿using Infinispan._14.Shared.Clients;
-using Infinispan._14.Shared.Clients.Interfaces;
-using Infinispan._14.Shared.Configuration;
+﻿using System.Net;
+using Infinispan.v14.Producer.Models;
+using Infinispan.v14.Shared.Clients;
+using Infinispan.v14.Shared.Clients.Interfaces;
+using Infinispan.v14.Shared.Configuration;
 using Microsoft.Extensions.Options;
-using System.Net;
-using Infinispan._14.Producer.Models;
 
-namespace Infinispan._14.Producer.Clients;
+namespace Infinispan.v14.Producer.Clients;
 
 public sealed class ProducerClient(IOptions<InfinispanSettings> settings) :
     InfinispanClient<WritableCarModel, Guid, WritableCarModel>(new Uri(settings.Value.BaseAddress)),

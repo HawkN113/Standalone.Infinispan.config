@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.14.Producer", "src\Infinispan.14.Producer\Infinispan.14.Producer.csproj", "{8C387605-D03A-476B-A35C-A6228A63D4FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Producer", "src\Infinispan.v14.Producer\Infinispan.v14.Producer.csproj", "{8C387605-D03A-476B-A35C-A6228A63D4FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.14.Consumer", "src\Infinispan.14.Consumer\Infinispan.14.Consumer.csproj", "{15406480-F1BC-481B-B552-C1E632A25E57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Consumer", "src\Infinispan.v14.Consumer\Infinispan.v14.Consumer.csproj", "{15406480-F1BC-481B-B552-C1E632A25E57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.14.Shared", "src\Infinispan.14.Shared\Infinispan.14.Shared.csproj", "{458E501C-E4AF-46AB-AA08-305840DB8A20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Shared", "src\Infinispan.v14.Shared\Infinispan.v14.Shared.csproj", "{458E501C-E4AF-46AB-AA08-305840DB8A20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
