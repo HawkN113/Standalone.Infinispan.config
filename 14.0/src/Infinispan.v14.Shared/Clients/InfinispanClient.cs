@@ -17,7 +17,7 @@ public abstract class InfinispanClient<T, TYpKey>(Uri baseAddress) : IInfinispan
     private const string TimeToLiveSecondsName = "TimeToLiveSeconds";
     protected abstract string CacheName { get; }
 
-    public async Task<bool> AddToCacheAsync(T model, TYpKey key,
+    public virtual async Task<bool> AddToCacheAsync(T model, TYpKey key,
         NetworkCredential credentials)
     {
         var httpClient = GetClient(credentials);
@@ -39,7 +39,7 @@ public abstract class InfinispanClient<T, TYpKey>(Uri baseAddress) : IInfinispan
         throw new ArgumentNullException($"AddToCacheAsync: {errorContent}");
     }
 
-    public async Task<T?> GetFromCacheAsync(TYpKey key, NetworkCredential credentials)
+    public virtual async Task<T?> GetFromCacheAsync(TYpKey key, NetworkCredential credentials)
     {
         var httpClient = GetClient(credentials);
         var request = new HttpRequestMessage(
@@ -53,7 +53,7 @@ public abstract class InfinispanClient<T, TYpKey>(Uri baseAddress) : IInfinispan
         return !string.IsNullOrEmpty(content) ? JsonSerializer.Deserialize<T>(content) : null;
     }
 
-    public async Task<List<TYpKey>?> GetAllKeysFromCacheAsync(NetworkCredential credentials, int limit)
+    public virtual async Task<List<TYpKey>?> GetAllKeysFromCacheAsync(NetworkCredential credentials, int limit)
     {
         var httpClient = GetClient(credentials);
         
@@ -76,12 +76,12 @@ public abstract class InfinispanClient<T, TYpKey>(Uri baseAddress) : IInfinispan
         return list?.Select(s => s.Key).ToList();
     }
 
-    public async Task<IEnumerable<T>> GetByQueryFromCacheAsync(Func<T, bool> query, NetworkCredential credentials,
+    public virtual async Task<List<T>> GetByQueryFromCacheAsync(Func<T, bool> query, NetworkCredential credentials,
         int limit)
     {
         var httpClient = GetClient(credentials);
 
-        var queryString = "?action=entries&content-negotiation=false&metadata=false";
+        const string queryString = "?action=entries&content-negotiation=false&metadata=false";
 
         var request = new HttpRequestMessage(
             HttpMethod.Get,
@@ -90,25 +90,26 @@ public abstract class InfinispanClient<T, TYpKey>(Uri baseAddress) : IInfinispan
 
         var content = await response.Content.ReadAsStringAsync();
 
-        if (string.IsNullOrEmpty(content)) return new List<T>();
-
+        if (string.IsNullOrEmpty(content)) return [];
         var cacheEntries = JsonSerializer.Deserialize<List<CacheEntry<TYpKey>>>(content);
 
         return cacheEntries?
+            .AsParallel()
             .Select(entry =>
             {
-                var value = JsonSerializer.Deserialize<T>(entry.Value!.ToString());
-                if (Guid.TryParse(entry.Key.ToString(), out var key))
-                    value!.CacheKey = key;
+                var value = entry.Value is not null
+                    ? JsonSerializer.Deserialize<T>(entry.Value.ToString())
+                    : null;
+                if (value is not null && Guid.TryParse(entry.Key.ToString(), out var key))
+                    value.CacheKey = key;
                 return value;
             })
-            .Where(item => item != null && query(item!))
-            .AsParallel()
+            .Where(item => item is not null && query(item))
             .Take(limit)
-            .AsEnumerable();
+            .ToList();
     }
 
-    public async Task<StatsModel?> GetStatisticsAsync(NetworkCredential credentials)
+    public virtual async Task<StatsModel?> GetStatisticsAsync(NetworkCredential credentials)
     {
         var httpClient = GetClient(credentials);
         var request = new HttpRequestMessage(
@@ -122,7 +123,7 @@ public abstract class InfinispanClient<T, TYpKey>(Uri baseAddress) : IInfinispan
         return !string.IsNullOrEmpty(content) ? JsonSerializer.Deserialize<StatsModel>(content) : null;
     }
 
-    public async Task<bool> DeleteFromCacheAsync(TYpKey key, NetworkCredential credentials)
+    public virtual async Task<bool> DeleteFromCacheAsync(TYpKey key, NetworkCredential credentials)
     {
         var httpClient = GetClient(credentials);
         var request = new HttpRequestMessage(
