@@ -8,10 +8,10 @@ using Microsoft.Extensions.Options;
 namespace Infinispan.v14.Monitor.Clients;
 
 public sealed class MonitorClient(IOptions<InfinispanSettings> settings) :
-    InfinispanClient<StatsModel, Guid>(new Uri(settings.Value.BaseAddress)),
+    CacheMonitorClient(new Uri(settings.Value.BaseAddress)),
     IMonitorClient
 {
-    protected override string CacheName => settings.Value.CacheName;
+    protected override string CacheMonitorName => settings.Value.CacheName;
 
     public async Task<StatsModel?> GetStatisticsAsync()
     {

@@ -28,7 +28,9 @@ public class ConsumerService(
                 var cacheEntry = await client.GetFromCacheAsync(key);
                 Console.WriteLine($"\t Cache entry: {cacheEntry?.Type} ({cacheEntry?.Manufacturer}){(cacheEntry?.CreatedUtcAt > LastRun ? " (recently added)": string.Empty)}");
             }
+            
             LastRun = DateTime.UtcNow;
+            
             Console.WriteLine($"Wait {DelayInSeconds} seconds...");
             await Task.Delay(DelayInSeconds * 1000, stoppingToken);
         }

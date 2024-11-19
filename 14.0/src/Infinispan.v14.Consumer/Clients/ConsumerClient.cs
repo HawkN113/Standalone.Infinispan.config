@@ -8,10 +8,10 @@ using Microsoft.Extensions.Options;
 namespace Infinispan.v14.Consumer.Clients;
 
 public sealed class ConsumerClient(IOptions<InfinispanSettings> settings) :
-    InfinispanClient<ReadableCarModel, Guid>(new Uri(settings.Value.BaseAddress)),
+    CacheReaderClient<ReadableCarModel, Guid>(new Uri(settings.Value.BaseAddress)),
     IConsumerClient<Guid, ReadableCarModel>
 {
-    protected override string CacheName => settings.Value.CacheName;
+    protected override string CacheReaderName => settings.Value.CacheName;
 
     public async Task<ReadableCarModel?> GetFromCacheAsync(Guid key)
     {

@@ -8,10 +8,10 @@ using Microsoft.Extensions.Options;
 namespace Infinispan.v14.Producer.Clients;
 
 public sealed class ProducerClient(IOptions<InfinispanSettings> settings) :
-    InfinispanClient<WritableCarModel, Guid>(new Uri(settings.Value.BaseAddress)),
+    CacheWriterClient<WritableCarModel, Guid>(new Uri(settings.Value.BaseAddress)),
     IProducerClient<WritableCarModel, Guid>
 {
-    protected override string CacheName => settings.Value.CacheName;
+    protected override string CacheWriterName => settings.Value.CacheName;
     
     public async Task<bool> AddToCacheAsync(WritableCarModel model, Guid key)
     {
