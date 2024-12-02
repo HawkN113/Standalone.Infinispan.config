@@ -1,10 +1,6 @@
 FROM quay.io/infinispan/server:14.0
 
-ARG KEYCLOAK_VERSION=24.0.1
-
 USER root
-
-RUN microdnf update -y && microdnf install -y shadow-utils tar which && microdnf clean all
 
 RUN groupadd -g 11000 "infinispanGroup"
 RUN adduser \

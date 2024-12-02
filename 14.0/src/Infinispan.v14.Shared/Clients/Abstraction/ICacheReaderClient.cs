@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Infinispan.v14.Shared.Models;
 
-namespace Infinispan.v14.Shared.Clients.Interfaces;
+namespace Infinispan.v14.Shared.Clients.Abstraction;
 
 internal interface ICacheReaderClient<T, TYpKey> 
     where T: CacheBaseModel where TYpKey: struct

@@ -8,7 +8,8 @@ using Microsoft.Extensions.Hosting;
 using var host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration(context =>
     {
-        context.AddJsonFile("appsettings.Development.json", false);
+        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+        context.AddJsonFile($"appsettings.{env}.json", false);
     })
     .ConfigureServices((context, services)  =>
     {

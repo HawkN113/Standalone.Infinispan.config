@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Infinispan.v14.Shared.Clients.Interfaces;
+using Infinispan.v14.Shared.Clients.Abstraction;
 using Infinispan.v14.Shared.Models;
 
 namespace Infinispan.v14.Shared.Clients;
@@ -73,7 +73,7 @@ public abstract class CacheReaderClient<T, TYpKey>(Uri baseAddress) : ICacheRead
             .Select(entry =>
             {
                 var value = entry.Value is not null
-                    ? JsonSerializer.Deserialize<T>(entry.Value.ToString())
+                    ? JsonSerializer.Deserialize<T>(entry.Value.ToString()!)
                     : null;
                 if (value is not null && Guid.TryParse(entry.Key.ToString(), out var key))
                     value.CacheKey = key;

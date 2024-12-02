@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Infinispan.v14.Consumer.Models;
 using Infinispan.v14.Shared.Clients;
-using Infinispan.v14.Shared.Clients.Interfaces;
+using Infinispan.v14.Shared.Clients.Abstraction;
 using Infinispan.v14.Shared.Configuration;
 using Microsoft.Extensions.Options;
 

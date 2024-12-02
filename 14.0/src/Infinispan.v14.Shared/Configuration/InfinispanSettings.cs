@@ -2,16 +2,16 @@
 
 public sealed class InfinispanSettings
 {
-    public string BaseAddress { get; set; }
-    public string CacheName { get; set; }
-    public List<AccessList> AccessList { get; set; } = new();
+    public required string BaseAddress { get; set; }
+    public required string CacheName { get; set; }
+    public required List<AccessList> AccessList { get; set; } = [];
 }
 
 public sealed class AccessList
 {
     public AccountType AccountType { get; set; }
-    public string Username { get; set; }
-    public string Password { get; set; }
+    public required string Username { get; set; }
+    public required string Password { get; set; }
 }
 
 public enum AccountType

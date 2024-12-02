@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
-using Infinispan.v14.Shared.Clients.Interfaces;
+using Infinispan.v14.Shared.Clients.Abstraction;
 using Infinispan.v14.Shared.Models;
 
 namespace Infinispan.v14.Shared.Clients;
