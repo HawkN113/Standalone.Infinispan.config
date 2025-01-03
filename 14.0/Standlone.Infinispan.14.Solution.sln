@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Producer", "src\Infinispan.v14.Producer\Infinispan.v14.Producer.csproj", "{8C387605-D03A-476B-A35C-A6228A63D4FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Consumer", "src\Infinispan.v14.Consumer\Infinispan.v14.Consumer.csproj", "{15406480-F1BC-481B-B552-C1E632A25E57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Shared", "src\Infinispan.v14.Shared\Infinispan.v14.Shared.csproj", "{458E501C-E4AF-46AB-AA08-305840DB8A20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infinispan.v14.Monitor", "src\Infinispan.v14.Monitor\Infinispan.v14.Monitor.csproj", "{D94E710E-6750-41CE-AACF-F395E956149B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C387605-D03A-476B-A35C-A6228A63D4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C387605-D03A-476B-A35C-A6228A63D4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C387605-D03A-476B-A35C-A6228A63D4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C387605-D03A-476B-A35C-A6228A63D4FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15406480-F1BC-481B-B552-C1E632A25E57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15406480-F1BC-481B-B552-C1E632A25E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15406480-F1BC-481B-B552-C1E632A25E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15406480-F1BC-481B-B552-C1E632A25E57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{458E501C-E4AF-46AB-AA08-305840DB8A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{458E501C-E4AF-46AB-AA08-305840DB8A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{458E501C-E4AF-46AB-AA08-305840DB8A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{458E501C-E4AF-46AB-AA08-305840DB8A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D94E710E-6750-41CE-AACF-F395E956149B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D94E710E-6750-41CE-AACF-F395E956149B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D94E710E-6750-41CE-AACF-F395E956149B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D94E710E-6750-41CE-AACF-F395E956149B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,29 @@
+@startuml
+
+participant "Producer \n (Send messages to cache)" as InfProducer
+participant "Consumer \n (Read messages to cache)" as InfConsumer
+box "Infinispan cluster \n (3 instances)" #LightBlue
+participant "distributed-cache-01 \n (Distributed cache)" as InfCache01 
+end box
+participant "Monitor \n (Get statistics from cache)" as InfMonitor
+
+== Write messages to cache ==
+
+InfProducer -> InfProducer: Generate car models
+InfProducer -> InfCache01: Authentication Request \nAccount: Applicant1 role: __Writer (application)__
+InfProducer <[#0000FF]-- InfCache01: Authentication Response
+InfProducer -> InfCache01: Call POST /rest/v2/caches/<cache>/<id> \nSend car models (messages) to cache
+
+== Read messages to cache ==
+
+InfConsumer -> InfCache01: Authentication Request \nAccount: Reader1 role: __Reader (observer)__
+InfConsumer <[#0000FF]-- InfCache01: Authentication Response
+InfConsumer -> InfCache01: Call GET /rest/v2/caches/<cache> \nGet car models (messages) from cache
+
+== Get statistics from cache ==
+
+InfMonitor -> InfCache01: Authentication Request \nAccount: Monitor1 role: __Monitor__
+InfMonitor <[#0000FF]-- InfCache01: Authentication Response
+InfMonitor -> InfCache01: Call GET /rest/v2/caches/<cache> \nGet statistics from cache
+
+@enduml

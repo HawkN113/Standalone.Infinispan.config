@@ -1,0 +1,106 @@
+    <infinispan
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="urn:infinispan:config:14.0 https://infinispan.org/schemas/infinispan-config-14.0.xsd"
+          xmlns="urn:infinispan:config:14.0"
+          xmlns:server="urn:infinispan:server:14.0"
+          xmlns:locks="urn:infinispan:config:clustered-locks:14.0">
+        
+      <!--Custom container-->
+      <cache-container name="${env.INFINISPAN_CONTAINER_NAME}" statistics="true">
+          <transport cluster="${env.INFINISPAN_CLUSTER_NAME:cluster}" 
+                     stack="${env.INFINISPAN_CLUSTER_STACK:tcp}" 
+                     node-name="${env.INFINISPAN_SERVER_HOST}" 
+                     site="distributed_site" />
+          <locks:clustered-locks num-owners="-1" 
+                                 reliability="CONSISTENT"/>
+          
+          <!--Set metrics-->
+          <metrics gauges="true" histograms="true" />
+
+          <!--Templates-->
+          <distributed-cache-configuration 
+                  name="distributed-config" 
+                  mode="SYNC">
+              <locking concurrency-level="1024" 
+                       acquire-timeout="15000" 
+                       striping="false"/>
+              <state-transfer timeout="60000"/>            
+              <expiration lifespan="-1"/>
+          </distributed-cache-configuration>
+          <replicated-cache-configuration 
+                  name="replicated-config" 
+                  mode="SYNC">
+              <locking acquire-timeout="15000" 
+                       concurrency-level="1024" 
+                       striping= "false"/>
+              <state-transfer timeout="60000"/>
+          </replicated-cache-configuration>
+
+          <!--Local caches-->
+          <local-cache name="local-cache-01" 
+                       statistics="true">
+              <encoding media-type="application/json"/>
+              <memory max-size="${env.INFINISPAN_CACHE_LOCAL_SIZE}${env.INFINISPAN_CACHE_LOCAL_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
+          </local-cache>
+
+          <!--Replicated caches-->
+          <replicated-cache name="replicated-cache-01" 
+                            configuration="replicated-config"
+                            statistics="true">
+              <encoding>
+                  <key media-type="text/plain"/>
+                  <value media-type="application/json"/>
+              </encoding>
+              <memory max-size="${env.INFINISPAN_CACHE_REPLICATED_SIZE}${env.INFINISPAN_CACHE_REPLICATED_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
+          </replicated-cache>
+
+          <!--Distributed caches-->
+          <distributed-cache name="distributed-cache-01" 
+                             owners="${env.OWNERS_COUNT}" 
+                             configuration="distributed-config"
+                             statistics="true">
+              <encoding>
+                  <key media-type="text/plain"/>
+                  <value media-type="application/json"/>
+              </encoding>
+              <memory max-size="${env.INFINISPAN_CACHE_DISTRIBUTED_SIZE}${env.INFINISPAN_CACHE_DISTRIBUTED_UNIT}" when-full="${env.INFINISPAN_CACHE_EVICTION_STRATEGY}" />
+          </distributed-cache>
+
+          <!--Authorization settings-->
+          <security>
+            <authorization/>
+          </security>
+
+      </cache-container>
+
+      <server xmlns="urn:infinispan:server:14.0">
+          <interfaces>
+            <interface name="public">
+                <inet-address value="${env.INFINISPAN_SERVER_HOST}"/>
+            </interface>
+          </interfaces>
+          <socket-bindings default-interface="public" 
+                           port-offset="${infinispan.socket.binding.port-offset:0}">
+            <socket-binding name="default" 
+                            port="${infinispan.bind.port:11222}"/>
+          </socket-bindings>
+          <security>
+            <credential-stores>
+                <credential-store name="credentials" 
+                                  path="credentials.pfx">
+                  <clear-text-credential clear-text="secret"/>
+                </credential-store>
+            </credential-stores>
+            <security-realms>
+                <security-realm name="default">
+                  <properties-realm groups-attribute="Roles">
+                      <user-properties path="users.properties"/>
+                      <group-properties path="groups.properties"/>
+                  </properties-realm>
+                </security-realm>
+            </security-realms>
+          </security>
+          <endpoints socket-binding="default" 
+                     security-realm="default" />
+      </server>
+    </infinispan>
