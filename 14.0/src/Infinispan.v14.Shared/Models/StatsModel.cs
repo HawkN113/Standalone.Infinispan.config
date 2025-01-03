@@ -17,7 +17,7 @@ public class StatsModel: CacheBaseModel
     public required bool IsQueryable { get; set; }
 }
 
-public abstract class Stats
+public sealed class Stats
 {
     [JsonPropertyName("approximate_entries_unique")]
     public required int TotalUniqueNumberOfEntries { get; set; }
