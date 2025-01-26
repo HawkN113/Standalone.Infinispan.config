@@ -1,4 +1,4 @@
-# Standlone.Infinispan.config
+# Standalone.Infinispan.config
 This project enables the use of a standalone distributed cache ([Infinispan](https://infinispan.org/)) and provides functionality for interacting with the cache. Infinispan is an open-source, in-memory data store capable of holding various types of data, ranging from plain text to structured objects.
 
 # Overview
